@@ -5,8 +5,8 @@
 #include <queue>
 #include <set>
 #include <iostream>
+#include "pt.h"
 
-typedef std::pair<int,int> Pt;
 Pt neighbour(const Pt &p, const int dir);
 
 /// Class for finding connected clusters on a 2D plane.

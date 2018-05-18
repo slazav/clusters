@@ -1,0 +1,17 @@
+We are using CORINE European Land Cover data [1,2]
+to find all connected clusters of some terrain types, calculate
+some parameters of each cluster (at least area and radii of
+inscribed and escribed circles) and build distributions for
+these parameters.
+
+The final result would be such distributions for each type
+of terrain, each country (if we have data for borders), each year.
+(With some interface for selecting and comparing data.)
+
+From this data one can see how area of e.g. forest
+clusters changes with time or compare different counrtries.
+It is also interesting to discuss are there any universal shape
+for these kind of distributions.
+
+[1] https://ramani.ujuizi.com/maps/layer_simS2seriesCoverEur_info.html
+[2] https://land.copernicus.eu/pan-european/corine-land-cover/view
