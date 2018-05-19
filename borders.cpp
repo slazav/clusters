@@ -145,6 +145,21 @@ bool border_bbox(const dMLine & brd, dPt & p1, dPt & p2){
   return true;
 }
 
+// remove border points and segments outside p1-p2 rectangle
+void border_crop(dMLine & brd, const dPt & p1, const dPt & p2){
+  dMLine::iterator seg = brd.begin();
+  while (seg!=brd.end()) {
+    dLine::iterator pt = seg->begin();
+    while (pt!=seg->end()) {
+      if (pt->first  >= p1.first  && pt->first < p2.first &&
+          pt->second >= p1.second && pt->second < p2.second)
+        pt++; else pt = seg->erase(pt);
+    }
+    if (seg->size()) seg++; else seg = brd.erase(seg);
+  }
+}
+
+
 /// brd_tester
 brd_tester::brd_tester(const dMLine & brd): cache(100){
   // collect line sides info: start and end points, slopes.

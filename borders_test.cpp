@@ -5,7 +5,7 @@
 int
 main(){
   try {
-    const char *country = "FI";
+    const char *country = "FR";
     const char *file = "data/CNTR_RG_03M_2013_4326.geojson";
     dMLine ML = get_border(file, country);
     std::cout << country << ": " << ML.size() << " lines\n";

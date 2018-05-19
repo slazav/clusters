@@ -34,22 +34,16 @@ class tiff_loader {
     bpp = scan/tiff_w;
     if (bpp!=1)  throw Err() << "tiff_loader: non-1bpp file: " << fname;
 
-    std::cerr << "Open tiff file: " << fname << "\n";
-    std::cerr << "Width:  " << tiff_w << "\n";
-    std::cerr << "Height: " << tiff_h << "\n";
+    std::cerr << "Tiff file: " << fname << ": " << tiff_w << " x " << tiff_h << "\n";
 
     /// check if we can do random access
     int compression_type, rows_per_strip;
     TIFFGetField(tiff, TIFFTAG_COMPRESSION,  &compression_type);
     TIFFGetField(tiff, TIFFTAG_ROWSPERSTRIP, &rows_per_strip);
-    std::cerr << "Compression:  " << compression_type << "\n";
-    std::cerr << "Rows:         " << rows_per_strip << "\n";
 
     uint32 tileWidth, tileLength;
     TIFFGetField(tiff, TIFFTAG_TILEWIDTH, &tw);
     TIFFGetField(tiff, TIFFTAG_TILELENGTH, &tl);
-    std::cerr << "Tiles: " << tw << "x" << tl << "\n";
-    std::cerr << "TileSize: " << TIFFTileSize(tiff) << "\n";
     cbuf = (uint8 *)_TIFFmalloc(TIFFTileSize(tiff));
     if (!cbuf)   throw Err() << "tiff_loader: can't allocate memory: " << fname;
   }

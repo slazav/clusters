@@ -1,0 +1,32 @@
+#!/bin/sh -efu
+
+imgdir=images
+mkdir -p  -- "$imgdir"
+
+countries1990="AT BE BG HR CZ DK EE FR DE EL HU IE IT LV LT LU MT ME NL PL PT RO RS SK SI ES TR"
+countries2000="AL AT BE BA BG HR CY CZ DK EE FI FR DE EL HU IS IE IT MK LV LI LT LU MK MT ME NL NO PL PT RO RS SK SI ES SE CH TR UK"
+
+for c in $countries1990; do
+  pnm="$imgdir/${c}_1990.pnm"
+  png="$imgdir/${c}_1990.png"
+  [ ! -f "$png" ] || continue
+
+  echo "1990: $c"
+  ./main -y 90 -c $c -i "$pnm" -s 2
+  pnmtopng < "$pnm" > "$png"
+  rm -f -- "$pnm"
+done
+
+
+for c in $countries2000; do
+  for y in 00 06 12; do
+    pnm="$imgdir/${c}_20$y.pnm"
+    png="$imgdir/${c}_20$y.png"
+    [ ! -f "$png" ] || continue
+
+    echo "20$y: $c"
+    ./main -y $y -c $c -i "$pnm" -s 2
+    pnmtopng < "$pnm" > "$png"
+    rm -f -- "$pnm"
+  done
+done

@@ -17,6 +17,8 @@ dMLine get_border(const char *rg_file, const char *country);
 // border bounding box (for empty border returns false);
 bool border_bbox(const dMLine & brd, dPt & p1, dPt & p2);
 
+// remove border segments outside p1-p2 rectangle
+void border_crop(dMLine & brd, const dPt & p1, const dPt & p2);
 
 /// test if integer points are inside the border
 class brd_tester {
