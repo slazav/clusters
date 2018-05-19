@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <jansson.h>
 #include <cstring>
 #include "err.h"
@@ -128,3 +129,59 @@ get_border(const char *rg_file, const char *country){
     }
   return dMLine(); // no country found
 }
+
+// border bounding box (for empty border do nothing);
+bool border_bbox(const dMLine & brd, dPt & p1, dPt & p2){
+  if (brd.size()==0 || brd[0].size()==0) return false;
+  p1 = p2 = brd[0][0];
+  for (dMLine::const_iterator seg = brd.begin(); seg!=brd.end(); seg++) {
+    for (dLine::const_iterator pt = seg->begin(); pt!=seg->end(); pt++) {
+      if (p1.first > pt->first)  p1.first = pt->first;
+      if (p2.first < pt->first)  p2.first = pt->first;
+      if (p1.second > pt->second)  p1.second = pt->second;
+      if (p2.second < pt->second)  p2.second = pt->second;
+    }
+  }
+  return true;
+}
+
+/// brd_tester
+brd_tester::brd_tester(const dMLine & brd): cache(100){
+  // collect line sides info: start and end points, slopes.
+  for (dMLine::const_iterator l = brd.begin(); l!=brd.end(); l++){
+    int pts = l->size();
+    for (int i = 0; i < pts; i++){
+      dPt b = (*l)[i%pts], e = (*l)[(i+1)%pts];
+      if (b.second == e.second) continue; // no need for horisontal sides
+      double s = (e.first-b.first)/(e.second-b.second); // side slope
+      sb.push_back(b);
+      se.push_back(e);
+      ss.push_back(s);
+    }
+  }
+}
+
+/// get integer crossings for a given y coordinate
+std::vector<int>
+brd_tester::get_cr(int y){
+  std::vector<int> cr;
+  for (int k = 0; k < sb.size(); k++){
+    if ((sb[k].second >  y)&&(se[k].second >  y)) continue; // side is above the row
+    if ((sb[k].second <= y)&&(se[k].second <= y)) continue; // side is below the row
+    cr.push_back((ss[k] * ((double)y - sb[k].second)) + sb[k].first);
+  }
+  std::sort(cr.begin(), cr.end());
+  return cr;
+}
+
+// test if the points is inside the border
+bool
+brd_tester::test(const int x, const int y){
+  if (!cache.contains(y)) cache.add(y, get_cr(y));
+  std::vector<int> cr = cache.get(y);
+  std::vector<int>::const_iterator i = std::lower_bound(cr.begin(), cr.end(), x);
+  int k=0;
+  while (i!=cr.end()) {i++; k++;}
+  return k%2==1;
+}
+

@@ -2,11 +2,11 @@ We are using CORINE European Land Cover data [1,2]
 to find all connected clusters of some terrain types, calculate
 some parameters of each cluster (at least area and radii of
 inscribed and escribed circles) and build distributions for
-these parameters.
+these parameters. Country borders can be found in [3].
 
-The final result would be such distributions for each type
-of terrain, each country (if we have data for borders), each year.
-(With some interface for selecting and comparing data.)
+The final result would be such distributions for each type of terrain,
+each country, each year with some interface for selecting and comparing
+data. (About 39 european countries, years 1990,2000,2006,2012 are available).
 
 From this data one can see how area of e.g. forest
 clusters changes with time or compare different counrtries.
@@ -15,3 +15,31 @@ for these kind of distributions.
 
 [1] https://ramani.ujuizi.com/maps/layer_simS2seriesCoverEur_info.html
 [2] https://land.copernicus.eu/pan-european/corine-land-cover/view
+[3] http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/countries
+
+
+### Technical information. Files:
+
+* pt.h -- simple typedefs for points and lines
+
+* err.h  -- error handling (from mapsoft project)
+
+* cache.h -- caches (from mapsoft project)
+
+* borders.h -- Read country border as a dtd::vector of lines from
+geojson file provided by eurostat (e.g. CNTR_RG_03M_2013_4326.geojson).
+
+* clusters.h -- Cluster finding. Functions for distance measurement and
+point selection should be provided.
+
+* tiff_loader.h -- Random access to a tiled tiff-files (such as Corine datafiles).
+
+* corine_proj.h -- Convert coordinates of datafiles. tfw file should be provided.
+
+### Countries:
+
+AL*, AT, BE, BA*, BG, HR, CY*, CZ, DK, EE, FI*, FR, DE, GR, HU, IS*, IE, IT,
+XK*, LV, LI, LT, LU, MK*, MT, ME, NL, NO*, PL, PT, RO, RS, SK, SI, ES, SE*,
+CH*, TR, UK*
+
+'*' - not available for year 1990.
