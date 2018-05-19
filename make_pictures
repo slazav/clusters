@@ -12,7 +12,7 @@ for c in $countries1990; do
   [ ! -f "$png" ] || continue
 
   echo "1990: $c"
-  ./main -y 90 -c $c -i "$pnm" -s 2
+  ./main -y 90 -c $c -i "$pnm" -s 1 -r 100
   pnmtopng < "$pnm" > "$png"
   rm -f -- "$pnm"
 done
@@ -25,7 +25,7 @@ for c in $countries2000; do
     [ ! -f "$png" ] || continue
 
     echo "20$y: $c"
-    ./main -y $y -c $c -i "$pnm" -s 2
+    ./main -y $y -c $c -i "$pnm" -s 1 -r 100
     pnmtopng < "$pnm" > "$png"
     rm -f -- "$pnm"
   done

@@ -49,7 +49,7 @@ class corine_proj {
   }
 
   void map2wgs(double & x, double & y) const {
-    x = a[0]*x + a[4]; y = a[3]*x + a[5];
+    x = a[0]*x + a[4]; y = a[3]*y + a[5];
     if (pj_transform(pj_dst, pj_src, 1, 1, &x, &y, NULL)!=0)
       throw Err() << "Can't convert coordinates: " << pj_strerrno(pj_errno);
     x/=DEG_TO_RAD; y/=DEG_TO_RAD;
