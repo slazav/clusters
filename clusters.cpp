@@ -61,6 +61,8 @@ cluster_finder::find_next() {
 
   // continue loop through the whole plane
   for (; y<y2; y++) {
+    std::cerr << "Cluster line:" << y << "/" << y2 << " ";
+    std::cerr << "Done size: " << done.size() << "\n";
     if (x==x2) x=x1;
     for (; x<x2; x++) {
       Pt p(x,y);
@@ -71,6 +73,7 @@ cluster_finder::find_next() {
 
       // find a cluster
       find_cl(p);
+    std::cerr << "Cluster: " << pts.size() << "\n";
 
       // add cluster to done set
       done.insert(pts.begin(), pts.end());
