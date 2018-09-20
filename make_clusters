@@ -1,0 +1,31 @@
+#!/bin/sh -efu
+
+cldir=clusters
+cltype=2
+res=100
+mkdir -p  -- "$cldir"
+
+countries1990="AT BE BG HR CZ DK EE FR DE EL HU IE IT LV LT LU MT ME NL PL PT RO RS SK SI ES TR"
+countries2000="AL AT BE BA BG HR CY CZ DK EE FI FR DE EL HU IS IE IT MK LV LI LT LU MK MT ME NL NO PL PT RO RS SK SI ES SE CH TR UK"
+
+countries1990="FI"
+countries2000="NL FI"
+
+for c in $countries1990; do
+  cl="$cldir/${c}_1990_$cltype"
+  [ ! -f "${cl}_area" ] || continue
+
+  echo "1990: $c"
+  ./main_block -C "$cl" -T "$cltype" -y 90 -c $c -r $res
+done
+
+
+for c in $countries2000; do
+  for y in 12 06 00; do
+    cl="$cldir/${c}_20${y}_$cltype"
+    [ ! -f "${cl}_area" ] || continue
+
+    echo "20$y: $c"
+    ./main_block -C "$cl" -T "$cltype" -y $y -c $c -r $res
+  done
+done

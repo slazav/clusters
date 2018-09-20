@@ -1,0 +1,19 @@
+#!/bin/sh -efu
+
+cldir=clusters
+cltype=2
+res=100
+mkdir -p  -- "$cldir"
+
+countries1990="AT BE BG HR CZ DK EE FR DE EL HU IE IT LV LT LU MT ME NL PL PT RO RS SK SI ES TR"
+countries2000="NL FI  AL AT BE BA BG HR CY CZ DK EE FI FR DE EL HU IS IE IT MK LV LI LT LU MK MT ME NL NO PL PT RO RS SK SI ES SE CH TR UK"
+
+
+
+for c in $countries2000; do
+  for y in 90 00 06 12; do
+    [ ! -f "areas_${c}_${y}" ] ||continue
+    echo "20$y: $c"
+    ./main_block -y $y -c $c -r $res
+  done
+done
